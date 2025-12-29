@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>typezone</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="brand">
+    <span class="logo">tz</span>
+    <span class="name">typezone</span>
+  </div>
+
+  <div class="stats">
+    <div class="timer" id="timer">30</div>
+    <div class="wpm" id="wpm">0 wpm</div>
+  </div>
+
+  <textarea id="input" autofocus></textarea>
+
+  <div id="quote" class="quote"></div>
+
+  <div id="result" class="result hidden">
+    <div class="result-box">
+      <h2>Test Complete</h2>
+      <p><span id="final-wpm">0</span> WPM</p>
+      <p><span id="final-accuracy">0</span>% Accuracy</p>
+      <button id="restart-btn">Restart</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

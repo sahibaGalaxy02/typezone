@@ -1,0 +1,111 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #2b2f33;
+  font-family: monospace;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand {
+  position: absolute;
+  top: 1.5rem;
+  left: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo {
+  background: #facc15;
+  color: #2b2f33;
+  font-weight: bold;
+  padding: 0.25rem 0.4rem;
+  border-radius: 4px;
+}
+
+.name {
+  color: #e5e7eb;
+  font-size: 1.2rem;
+}
+
+.stats {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.timer {
+  font-size: 3rem;
+  color: #facc15;
+}
+
+.wpm {
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+#input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* QUOTE */
+.quote {
+  max-width: 900px;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  color: #6b7280;
+  user-select: none;
+}
+
+/* STATES */
+.correct {
+  color: #e5e7eb;
+}
+
+.wrong {
+  color: #ef4444;
+}
+
+.active {
+  border-left: 2px solid #e5e7eb;
+  padding-left: 2px;
+}
+
+.result {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.result.hidden {
+  display: none;
+}
+
+.result-box {
+  background: #2b2f33;
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  text-align: center;
+  color: #e5e7eb;
+}
+
+.result-box button {
+  margin-top: 1.5rem;
+  padding: 0.5rem 1.2rem;
+  background: #facc15;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
