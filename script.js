@@ -18,14 +18,10 @@ const texts = [
 
 let letters = [];
 let index = 0;
-
 let time = 30;
 let started = false;
 let interval = null;
-
-let correctChars = 0;
-let totalTyped = 0;
-
+let typedStates = [];
 
 function loadSentence() {
   index = 0;
@@ -37,6 +33,7 @@ function loadSentence() {
     .join("");
 
   letters = quoteEl.querySelectorAll("span");
+  typedStates = new Array(letters.length).fill(null);
 }
 
 function startTimer() {
@@ -46,9 +43,9 @@ function startTimer() {
   interval = setInterval(() => {
     time--;
     timerEl.innerText = time;
-    updateWPM();
+    updateStats();
 
-    if (time === 0) {
+    if (time <= 0) {
       clearInterval(interval);
       document.removeEventListener("keydown", handleKey);
       showResult();
@@ -56,49 +53,68 @@ function startTimer() {
   }, 1000);
 }
 
-function updateWPM() {
-  const elapsed = (30 - time) / 60;
-  if (elapsed > 0) {
-    const wpm = Math.round((correctChars / 5) / elapsed);
-    wpmEl.innerText = `${wpm} wpm`;
-  }
+function getCorrectChars() {
+  return typedStates.filter(state => state === true).length;
 }
 
-// KEYS
+function getTotalTyped() {
+  return typedStates.filter(state => state !== null).length;
+}
+
+function updateStats() {
+  const correctChars = getCorrectChars();
+  const totalTyped = getTotalTyped();
+
+  const elapsed = (30 - time) / 60;
+  const wpm = elapsed > 0 ? Math.round((correctChars / 5) / elapsed) : 0;
+  const accuracy = totalTyped > 0 ? Math.round((correctChars / totalTyped) * 100) : 0;
+
+  wpmEl.innerText = `${wpm} wpm`;
+  return { correctChars, totalTyped, wpm, accuracy };
+}
+
 function handleKey(e) {
   const current = letters[index];
   startTimer();
 
   if (e.key === "Enter") {
-    resetTest();
+    e.preventDefault();
     return;
   }
 
   if (e.key === "Backspace") {
+    e.preventDefault();
+
     if (index === 0) return;
+
     letters[index]?.classList.remove("active");
     index--;
+    typedStates[index] = null;
     letters[index].classList.remove("correct", "wrong");
     letters[index].classList.add("active");
+    updateStats();
     return;
   }
 
   if (e.key.length !== 1 || !current) return;
 
-  totalTyped++;
-
   if (e.key === current.innerText) {
     current.classList.add("correct");
-    correctChars++;
+    current.classList.remove("wrong");
+    typedStates[index] = true;
   } else {
     current.classList.add("wrong");
+    current.classList.remove("correct");
+    typedStates[index] = false;
   }
 
   current.classList.remove("active");
   index++;
+  updateStats();
 
   if (index === letters.length) {
     loadSentence();
+    updateStats();
     return;
   }
 
@@ -106,12 +122,7 @@ function handleKey(e) {
 }
 
 function showResult() {
-  const minutes = 30 / 60;
-  const wpm = Math.round((correctChars / 5) / minutes);
-  const accuracy = totalTyped
-    ? Math.round((correctChars / totalTyped) * 100)
-    : 0;
-
+  const { wpm, accuracy } = updateStats();
   finalWpmEl.innerText = wpm;
   finalAccuracyEl.innerText = accuracy;
   resultEl.classList.remove("hidden");
@@ -121,15 +132,15 @@ function resetTest() {
   clearInterval(interval);
   started = false;
   time = 30;
-  correctChars = 0;
-  totalTyped = 0;
 
   timerEl.innerText = time;
   wpmEl.innerText = "0 wpm";
   resultEl.classList.add("hidden");
 
-  document.addEventListener("keydown", handleKey);
+  document.removeEventListener("keydown", handleKey);
   loadSentence();
+  document.addEventListener("keydown", handleKey);
+  input.focus();
 }
 
 loadSentence();
