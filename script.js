@@ -13,7 +13,7 @@ const texts = [
   "practice typing every day to improve speed and accuracy",
   "learning by doing is the best way to master skills",
   "focus on accuracy before increasing your typing speed",
-  "typing fast comes from calm and consistent practice"
+  "typing fast comes from calm and consistent practice !!,
 ];
 
 let letters = [];
