@@ -97,4 +97,4 @@ For questions or feedback, please reach out via [GitHub Issues](https://github.c
 
 ---
 
-**Made with ❤️ by [sahibaGalaxy02](https://github.com/sahibaGalaxy02)**
+**Made with ❤️ by [Sahiba](https://github.com/sahibaGalaxy02)**
